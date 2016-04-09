@@ -8,7 +8,7 @@
 	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
 
 	<constant name="struts.action.extension" value="action" />
-	<!-- <constant name="struts.convention.action.packages" value="com.libraryms.action" /> -->
+	<constant name="struts.convention.action.packages" value="com.libraryms.action" />
 
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.il8n.encoding" value="UTF-8" />
