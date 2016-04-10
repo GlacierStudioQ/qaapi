@@ -52,7 +52,7 @@
 		<!-- 自动扫描注解方式配置的hibernate类文件 -->  
         <property name="packagesToScan">  
             <list>  
-                <!-- <value>com.libraryms.bean</value> -->  
+                <value>com.qaapi.bean</value>  
             </list>  
         </property>
 	</bean>
