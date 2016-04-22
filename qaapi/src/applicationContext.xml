@@ -15,7 +15,7 @@
   
     
     <!-- 自动加载构建bean -->  
-    <context:component-scan base-package="com.libraryms" />  
+    <context:component-scan base-package="com.qaapi" />  
 	
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -46,7 +46,7 @@
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 		<!-- 自动扫描注解方式配置的hibernate类文件 -->  
@@ -87,7 +87,7 @@
     <!-- 配置事务切面 -->  
     <aop:config>  
         <aop:pointcut id="serviceMethods"  
-            expression="execution(* com.libraryms.dao..*.*(..))" />
+            expression="execution(* com.qaapi.dao..*.*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods" />  
     </aop:config>  
     
