@@ -1,18 +1,23 @@
 package com.qaapi.memorydb;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qaapi.bean.Authority;
+import com.qaapi.bean.FaqEntry;
 import com.qaapi.bean.Schema;
 import com.qaapi.dao.AuthDao;
 import com.qaapi.dao.FaqDao;
 import com.qaapi.dao.SchemaDao;
+import com.qaapi.multisource.NowSchemaHolder;
 
 import static com.qaapi.memorydb.DataHolder.*;
+import static com.qaapi.multisource.NowSchemaHolder.DFT_DB;
 
 /**
  * 从DB中读取数据之后放入DataHolder中
@@ -21,22 +26,31 @@ import static com.qaapi.memorydb.DataHolder.*;
  * @author IceAsh
  *
  */
-@Service("dbLoader")
-public class DBLoader {
+@Service("dataBaseLoader")
+public class DataBaseLoader {
 	
+	@Autowired
 	SchemaDao schemaDao;
+	
+	@Autowired
 	AuthDao authDao;
+	
+	@Autowired
 	FaqDao faqDao;
 	
 	/**
 	 * 读取全部数据
 	 */
 	public void loadAll(){
+		
+		NowSchemaHolder.set(DFT_DB);
+		
 		//scheams
 		List<Schema> allSchemas = schemaDao.loadAll();
-		SCHEMAS = allSchemas;
+		SCHEMAS = new ArrayList<Schema>(allSchemas);
 		
 		//authorities
+		AUTHORITIES = new HashMap<String, List<String>>();
 		List<Authority> allAuths = authDao.loadAll();
 		for (Authority auth : allAuths) {
 			if(!AUTHORITIES.containsKey(auth.getDomain())){
@@ -45,7 +59,20 @@ public class DBLoader {
 			AUTHORITIES.get(auth.getDomain()).add(auth.getSchemasName());
 		}
 		
-		//
+		//FaqEntries
+		FAQ_ENTRIES = new HashMap<String, Map<Long,FaqEntry>>();
+		for (Schema schema : SCHEMAS) {
+			NowSchemaHolder.set(schema.getName());
+			List<FaqEntry> allEntries = faqDao.loadAll();
+			
+			Map<Long, FaqEntry> entriesInASchema = new HashMap<Long, FaqEntry>();
+			FAQ_ENTRIES.put(schema.getName(), entriesInASchema);
+			for (FaqEntry faqEntry : allEntries) {
+				entriesInASchema.put(faqEntry.getId(), faqEntry);
+			}
+		}
+		
+		NowSchemaHolder.set(DFT_DB);
 	}
 	
 	/**
