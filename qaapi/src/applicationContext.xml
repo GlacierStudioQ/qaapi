@@ -26,7 +26,7 @@
     </bean>
 	
 	<!-- 数据源的配置 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="dataSourceBase" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="url" value="${jdbc.url}"/>
         <property name="username" value="${jdbc.username}"/>
@@ -37,10 +37,19 @@
         <property name="maxWait" value="1000"/>
 	</bean>
 	
+	<bean id="jdbcTemplateBase" class="org.springframework.jdbc.core.JdbcTemplate">
+		<constructor-arg ref="dataSourceBase" />
+	</bean>
+	
+	<!-- 配置动态数据源，会根据从请求中解析出的数据源名称构建数据源-->
+	<bean id="dataSourceRaw" class="com.qaapi.multisource.DataSourceSwitchSchema" >
+		<property name="dataSourceBase" ref="dataSourceBase"></property>
+	</bean>
+	
 	<!-- Session工厂的配置 -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<!-- 注入dataSource对象 -->
-		<property name="dataSource" ref="dataSource"/>
+		<property name="dataSource" ref="dataSourceRaw"/>
 		<!-- 配置hibernate的部分属性 -->
 		<property name="hibernateProperties">
 			<props>
