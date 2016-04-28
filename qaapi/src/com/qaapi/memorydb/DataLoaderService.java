@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.qaapi.lucenequery.DocumentsLoader;
+
 /**
  * 调用DBLoader加载全部数据，
  * 之后调用LoadDocument把数据全部输入Lucene中
@@ -21,10 +23,11 @@ public class DataLoaderService {
 	
 	
 	/**
-	 * 读取全部数据，并通过LoadAllDocument全部加载到lucene中
+	 * 读取全部数据，并通过LoadAllDocuments全部加载到lucene中
 	 */
 	public void loadAll(){
 		dataBaseLoader.loadAll();
+		DocumentsLoader.loadAll();
 	}
 	
 	/**

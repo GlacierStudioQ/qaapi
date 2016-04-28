@@ -60,6 +60,30 @@ public class DocumentsLoader {
 		}
 		throw new SchemaNotExistException();
 	}
+	/**
+	 * 加载一个List中的schema的文档
+	 * 如果有schema不存在则会抛出异常
+	 * 
+	 * @param schemaName
+	 * @throws SchemaNotExistException 
+	 */
+	public static void loadList(List<String> schemaNames) throws SchemaNotExistException {
+		List<Schema> schemaList = new ArrayList<Schema>();
+		for(Schema schema : SCHEMAS){
+			if(schemaNames.contains(schema.getName())){
+				schemaList.add(schema);
+				schemaNames.remove(schema.getName());
+			}
+		}
+		// 只要有符合的schema就重新加载
+		if(schemaList.size() != 0){
+			load(schemaList);
+		}
+		// 没全部remove，说明有的schema不存在
+		if(schemaNames.size() != 0){
+			throw new SchemaNotExistException();
+		}
+	}
 	
 	/**
 	 * 加载全部schema的文档
@@ -73,8 +97,9 @@ public class DocumentsLoader {
 	 * @param schemaList
 	 */
 	private static void load(List<Schema> schemaList) {
-		SEARCHERS = new HashMap<String, IndexSearcher>();
-		
+		if(SEARCHERS == null){
+			SEARCHERS = new HashMap<String, IndexSearcher>();
+		}
 		try {
 			
 			for (Schema schema : schemaList) {

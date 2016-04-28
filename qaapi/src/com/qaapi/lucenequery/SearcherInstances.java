@@ -12,5 +12,5 @@ import org.apache.lucene.search.IndexSearcher;
  *
  */
 public class SearcherInstances {
-	public static Map<String ,IndexSearcher> SEARCHERS;
+	public static Map<String ,IndexSearcher> SEARCHERS = null;
 }
