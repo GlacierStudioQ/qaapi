@@ -29,6 +29,10 @@ import static com.qaapi.lucenequery.DocumentsLoader.FIELD_NAME;;
  */
 @Service("queryMatchService")
 public class QueryMatchService {
+	
+	// 要输出的结果数目
+	private static int matchCount = 1;
+	
 	public static List<Long> queryMatch(String schemaName, String question) throws SchemaNotExistException {
 		
 		IndexSearcher searcher = SEARCHERS.get(schemaName);
@@ -48,8 +52,6 @@ public class QueryMatchService {
 			Query query = qp.parse(question);
 			System.out.println("lucene => 分词结果：" + query.toString());
 			
-			// 要输出的结果数目
-			int matchCount = 1;
 			// 搜索相似度最高的记录
 			TopDocs topDocs;
 			topDocs = searcher.search(query, matchCount);

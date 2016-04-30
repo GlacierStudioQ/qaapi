@@ -156,10 +156,6 @@ public class DocumentsLoader {
 				// 把搜索器实例添加入容器
 				SEARCHERS.put(schemaName, isearcher);
 				
-				// 关闭操作
-				if (ireader != null) {
-					ireader.close();
-				}
 				if (directory != null) {
 					directory.close();
 				}
