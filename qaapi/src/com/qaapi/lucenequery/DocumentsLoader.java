@@ -25,8 +25,7 @@ import com.qaapi.bean.Schema;
 import com.qaapi.memorydb.SchemaNotExistException;
 
 import static com.qaapi.lucenequery.SearcherInstances.SEARCHERS;
-import static com.qaapi.memorydb.DataHolder.SCHEMAS;
-import static com.qaapi.memorydb.DataHolder.FAQ_ENTRIES;
+import static com.qaapi.memorydb.DataHolder.*;
 
 /**
  * 

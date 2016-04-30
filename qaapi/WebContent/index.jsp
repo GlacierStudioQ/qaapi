@@ -6,35 +6,34 @@
 <meta charset="UTF-8">
 <%@ include file="/common/commonpage.jsp"%>
 <script src="common/jquery.min.js"></script>
-
 <title>main page</title>
 </head>
 <body>
 
 	<!-- 查询 -->
-	<input type="text" id="question">
-	<button id="bSubmit">submit</button>
-	<div id="rststat"></div>
+	Q<input type="text" id="question" /><br>
+	schema<input type="text" id="schemaname" /><br>
+	domian<input type="text" id="domainname" /><br>
+	<button id="bSubmit">submit</button><br>
 	<div id="rst"></div>
 	<script>
 		$(document).ready(function() {
 			$("#bSubmit").click(function() {
 				var question = $("#question").val();
+				var schemaname = $("#schemaname").val();
+				var domainname = $("#domainname").val();
 				$.ajax({
 					url : '{ctx}/answer!answer.action',
 					type : 'post',
 					data : {
-						schemaName : "qaapi",
+						domainName : domainname,
+						schemaName : schemaname,
 						question : question
 					},
 					dataType : 'json'
 				}).done(function(data) {
 
-					$("#rststat").html(data.msg);
-					if(data.status == 200){
-						var qaEntry = data.data[0];
-						$("#rst").html(qaEntry.answer);
-					}
+					$("#rst").html(JSON.stringify(data));
 
 				});
 			});

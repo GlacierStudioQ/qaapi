@@ -48,6 +48,7 @@ public class DataBaseLoader {
 		//scheams
 		List<Schema> allSchemas = schemaDao.loadAll();
 		SCHEMAS = new ArrayList<Schema>(allSchemas);
+		DataHolder.extractSchemasName();
 		
 		//authorities
 		AUTHORITIES = new HashMap<String, List<String>>();

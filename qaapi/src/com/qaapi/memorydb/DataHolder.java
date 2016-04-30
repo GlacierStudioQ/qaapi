@@ -1,7 +1,9 @@
 package com.qaapi.memorydb;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.qaapi.bean.FaqEntry;
 import com.qaapi.bean.Schema;
@@ -18,6 +20,25 @@ public class DataHolder {
 	 * 存放系统一共包含几个库
 	 */
 	public static List<Schema> SCHEMAS;
+	
+	/*
+	 * List<schemaName>
+	 * 存放系统一共包含的库的名字
+	 */
+	public static Set<String> SCHEMAS_NAME;
+	
+	/**
+	 * 把schema列表转化为schemaName列表
+	 */
+	public static void extractSchemasName(){
+		if(SCHEMAS == null){
+			return;
+		}
+		SCHEMAS_NAME = new HashSet<String>();
+		for (Schema schema : SCHEMAS) {
+			SCHEMAS_NAME.add(schema.getName());
+		}
+	}
 	
 	/*
 	 * Map<domainName ,List<schemaName>>

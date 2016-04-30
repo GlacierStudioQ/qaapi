@@ -24,6 +24,16 @@
 	</filter-mapping>
 	
 	<filter>
+		<filter-name>authorityValidateFilter</filter-name>
+		<filter-class>com.qaapi.filter.AuthorityValidateFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>authorityValidateFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
 		<filter-name>OpenSessionInViewFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
 		<init-param>

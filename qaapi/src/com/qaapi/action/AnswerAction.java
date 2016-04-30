@@ -7,7 +7,6 @@ import java.util.Map;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import com.qaapi.bean.FaqEntry;
@@ -22,7 +21,7 @@ public class AnswerAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	
 	String question;
-	String schemaName;
+	String schemaName;// 此处变量名必须和QaapiStatic里面的静态量值一致
 	
 	
 	public String answer() throws Exception {
