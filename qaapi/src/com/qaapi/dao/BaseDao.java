@@ -84,7 +84,7 @@ public class BaseDao extends HibernateDaoSupport {
 	public List<?> loadAll(String entityName, String paramName, int firstResult, int maxResults) {
 	
 		DetachedCriteria criteria=DetachedCriteria.forEntityName(ENTITY_PATH + entityName);
-		criteria.add(Restrictions.isNotNull(paramName));//Restrictions类创建criteria
+		//criteria.add(Restrictions.isNotNull(paramName));//Restrictions类创建criteria
 		return getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);
 	}
 	
