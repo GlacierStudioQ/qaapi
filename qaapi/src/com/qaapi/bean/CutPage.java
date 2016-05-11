@@ -1,23 +1,32 @@
 package com.qaapi.bean;
 
-public class CutPage {
+import static com.qaapi.util.QaapiStatic.DEFAULT_PAGE_SIZE;
+
+import java.io.Serializable;
+
+public class CutPage implements Serializable{
 
 	private Integer nowPage;
 	private Integer pageSize;
 
-	private Integer dateCount;
+	private Integer dataCount;
 	private Integer pageCount;
 
 	/**
-	 * 验证CutPage类中的各变量是否合法
+	 * 验证CutPage类中的各变量是否合法，若不合法，则置为默认值
 	 * @return
 	 */
-	public boolean validate() {
-		if (nowPage <= 0 || pageSize <= 0) {
-			return false;
-		} else {
-			return true;
+	public void format() {
+		if(nowPage > pageCount){
+			nowPage = pageCount;
 		}
+		if (nowPage <= 0){
+			nowPage = 1;
+		}
+		if(pageSize <= 0) {
+			pageSize = DEFAULT_PAGE_SIZE;
+		}
+		
 	}
 
 	public Integer getNowPage() {
@@ -36,12 +45,12 @@ public class CutPage {
 		this.pageSize = pageSize;
 	}
 
-	public Integer getDateCount() {
-		return dateCount;
+	public Integer getDataCount() {
+		return dataCount;
 	}
 
-	public void setDateCount(Integer dateCount) {
-		this.dateCount = dateCount;
+	public void setDataCount(Integer dataCount) {
+		this.dataCount = dataCount;
 	}
 
 	public Integer getPageCount() {

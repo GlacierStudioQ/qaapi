@@ -102,18 +102,23 @@ public class FaqEntryService {
 			cutPage.setPageSize(DEFAULT_PAGE_SIZE);
 		}
 		
-		if(cutPage.getDateCount() == null){
+		if(cutPage.getDataCount() == null){
 			List countList = faqDao.findByHql("select count(*) from FaqEntry");
 			Long countLong = (Long) countList.get(0);
 			Integer dateCount = new Integer(countLong.toString());
-			cutPage.setDateCount(dateCount);
-			cutPage.setPageCount(dateCount / DEFAULT_PAGE_SIZE);
+			cutPage.setDataCount(dateCount);
+			int  pageSize = cutPage.getPageSize();
+			cutPage.setPageCount(dateCount % pageSize == 0 ?
+											dateCount / pageSize : 
+											dateCount / pageSize + 1);
 		}
+		
+		cutPage.format();// 避免非正常的数值出现
 		
 		List<FaqEntry> faqEntries = faqDao.loadAll("", cutPage.getPageSize() * (cutPage.getNowPage() - 1), cutPage.getPageSize());
 		
-		JSONArray faqEntriesJson = JSONArray.fromObject(faqEntries);
-		return ReturnJson.ok(faqEntriesJson, "成功返回数据");
+		// 返回的json中不光要有问答的数据，还要有用于分页的cutPage类（放在other中）
+		return ReturnJson.ok(JSONArray.fromObject(faqEntries), "成功返回数据", JSONObject.fromObject(cutPage));
 	}
 	
 	//============setter&getter============

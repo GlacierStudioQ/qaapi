@@ -20,7 +20,7 @@ public class ReturnJson implements ReturnJsonKey{
 	 * @param other
 	 * @return jsonObject
 	 */
-	public static JSONObject ok(Object data, String msg, String other) {
+	public static JSONObject ok(Object data, String msg, Object other) {
 		JSONObject json = new JSONObject();
 		try {
 			json.put(DATA, data);
@@ -42,7 +42,7 @@ public class ReturnJson implements ReturnJsonKey{
 	 * @param other
 	 * @return jsonObject
 	 */
-	public static JSONObject notok(Object data, String msg, int status, String other) {
+	public static JSONObject notok(Object data, String msg, int status, Object other) {
 		JSONObject json = new JSONObject();
 		try {
 			// 失败的返回码不能是200

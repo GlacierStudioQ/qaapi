@@ -16,6 +16,9 @@
 	domian<input type="text" id="domainname" /><br>
 	<button id="bSubmit">submit</button><br>
 	<div id="rst"></div>
+	
+	<a href="question_config.jsp">question config</a>
+	
 	<script>
 		$(document).ready(function() {
 			$("#bSubmit").click(function() {
