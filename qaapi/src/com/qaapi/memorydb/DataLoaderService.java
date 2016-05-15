@@ -1,8 +1,10 @@
 package com.qaapi.memorydb;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +26,19 @@ public class DataLoaderService {
 	
 	/**
 	 * 读取全部数据，并通过LoadAllDocuments全部加载到lucene中
+	 * @throws IOException 
+	 * @throws ParseException 
 	 */
-	public void loadAll(){
+	public void loadAll() throws ParseException, IOException{
 		dataBaseLoader.loadAll();
+		// lucene
 		DocumentsLoader.loadAll();
+		
+		// lcs
+		// lcs与lucene共用数据结构，不需要再加载
+		
+		// kei
+		
 	}
 	
 	/**

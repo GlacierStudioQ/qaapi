@@ -51,4 +51,11 @@ public class DataHolder {
 	 * 存放每个库中的所有问答
 	 */
 	public static Map<String ,Map<Long, FaqEntry>> FAQ_ENTRIES;
+	
+	/*
+	 * Map<schemaName ,Map<id, FaqEntry>>
+	 * 存放每个库中的所有问答
+	 * 这个存放的是已经分词的结果
+	 */
+	public static Map<String ,Map<Long, List<String>>> FAQ_ENTRIES_PARSED;
 }

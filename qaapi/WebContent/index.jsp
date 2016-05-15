@@ -12,10 +12,10 @@
 
 	<!-- 查询 -->
 	Q<input type="text" id="question" /><br>
-	schema<input type="text" id="schemaname" /><br>
-	domian<input type="text" id="domainname" /><br>
+	schema<input type="text" id="schemaname" value="qaapi" /><br>
+	domian<input type="text" id="domainname" value="localhost" /><br>
 	<button id="bSubmit">submit</button><br>
-	<div id="rst"></div>
+	<pre id="rst"></pre>
 	
 	<a href="question_config.jsp">question config</a>
 	
@@ -36,7 +36,7 @@
 					dataType : 'json'
 				}).done(function(data) {
 
-					$("#rst").html(JSON.stringify(data));
+					$("#rst").html(JSON.stringify(data, null, '\t'));
 
 				});
 			});

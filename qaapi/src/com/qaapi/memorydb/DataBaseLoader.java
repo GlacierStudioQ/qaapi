@@ -1,10 +1,13 @@
 package com.qaapi.memorydb;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import com.qaapi.bean.Schema;
 import com.qaapi.dao.AuthDao;
 import com.qaapi.dao.FaqDao;
 import com.qaapi.dao.SchemaDao;
+import com.qaapi.lucenequery.ParseKeyword;
 import com.qaapi.multisource.NowSchemaHolder;
 
 import static com.qaapi.memorydb.DataHolder.*;
@@ -40,8 +44,10 @@ public class DataBaseLoader {
 	
 	/**
 	 * 读取全部数据
+	 * @throws IOException 
+	 * @throws ParseException 
 	 */
-	public void loadAll(){
+	public void loadAll() throws ParseException, IOException{
 		
 		NowSchemaHolder.set(DFT_DB);
 		
@@ -69,10 +75,32 @@ public class DataBaseLoader {
 			Map<Long, FaqEntry> entriesInASchema = new HashMap<Long, FaqEntry>();
 			FAQ_ENTRIES.put(schema.getName(), entriesInASchema);
 			for (FaqEntry faqEntry : allEntries) {
+				
+				// 剪掉问题两端的空白符
+				faqEntry.setQuestion(StringUtils.trimToEmpty(faqEntry.getQuestion()));
+				
 				entriesInASchema.put(faqEntry.getId(), faqEntry);
 			}
 		}
+		NowSchemaHolder.set(DFT_DB);
 		
+		// kei数据结构
+		ParseKeyword parseKeyword = new ParseKeyword();
+		FAQ_ENTRIES_PARSED = new HashMap<String, Map<Long,List<String>>>();
+		for (Schema schema : SCHEMAS) {
+			NowSchemaHolder.set(schema.getName());
+			List<FaqEntry> allEntries = faqDao.loadAll();
+			
+			Map<Long, List<String>> wordElementsInASchema = new HashMap<Long, List<String>>();
+			FAQ_ENTRIES_PARSED.put(schema.getName(), wordElementsInASchema);
+			for (FaqEntry faqEntry : allEntries) {
+				
+				// 剪掉问题两端的空白符
+				faqEntry.setQuestion(StringUtils.trimToEmpty(faqEntry.getQuestion()));
+				
+				wordElementsInASchema.put(faqEntry.getId(), parseKeyword.getWordElements(faqEntry.getQuestion()));
+			}
+		}
 		NowSchemaHolder.set(DFT_DB);
 	}
 	
@@ -81,7 +109,7 @@ public class DataBaseLoader {
 	 * @param Map(schemaName,List(faqEntriesIds))
 	 */
 	public void loadLocality(Map<String,List<Long>> ids){
-		
+		// TODO:还未实现
 	}
 
 	

@@ -11,6 +11,9 @@ import javax.servlet.ServletResponse;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
 
 import static com.qaapi.util.GlobeStatus.*;
 
@@ -42,9 +45,15 @@ public class AuthorityValidateFilter implements Filter{
 			chain.doFilter(req, resp);
 			return;
 		}
-		
-		String domainName = req.getParameter(PARAM_DOMAIN);
+
 		String schemaName = req.getParameter(PARAM_SCHEMA_NAME);
+		
+		// 先从session中获取domainName，若获取不到则看请求中有没有
+		HttpSession session = ((HttpServletRequest)req).getSession();
+		String domainName = (String) session.getAttribute(PARAM_DOMAIN);
+		if(StringUtils.isEmpty(domainName)){
+			domainName = req.getParameter(PARAM_DOMAIN);
+		}
 		
 		if(!AUTHORITIES.containsKey(domainName)){
 			JSONObject returnJson = ReturnJson.notok("", "非法用户", ACCESS_DECLINE_403);

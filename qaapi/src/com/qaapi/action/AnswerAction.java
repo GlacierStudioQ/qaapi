@@ -1,8 +1,6 @@
 package com.qaapi.action;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -10,10 +8,11 @@ import net.sf.json.JSONObject;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import com.qaapi.bean.FaqEntry;
+import com.qaapi.kei.QueryMatchKeiService;
+import com.qaapi.lcs.QueryMatchLcsService;
 import com.qaapi.lucenequery.QueryMatchService;
 import com.qaapi.util.ReturnJson;
 
-import static com.qaapi.memorydb.DataHolder.FAQ_ENTRIES;
 import static com.qaapi.util.GlobeStatus.*;
 
 @ParentPackage(value = "struts-default")
@@ -27,21 +26,22 @@ public class AnswerAction extends BaseAction {
 	public String answer() throws Exception {
 		System.out.println("sys => into answer action");
 		
-		List<Long> answerIds = QueryMatchService.queryMatch(schemaName, question);
+		List<FaqEntry> answers1 = QueryMatchService.queryMatch(schemaName, question);
+		List<FaqEntry> answers2 = QueryMatchLcsService.queryMatch(schemaName, question);
+		List<FaqEntry> answers3 = QueryMatchKeiService.queryMatch(schemaName, question);
 		
-		List<FaqEntry> answers = new ArrayList<FaqEntry>();
-		Map<Long, FaqEntry> faqEntriesInSchema = FAQ_ENTRIES.get(schemaName);
-		
-		for (Long id : answerIds) {
-			answers.add(faqEntriesInSchema.get(id));
-		}
-		
-		if(answers.size() == 0){
+		if(answers1.size() == 0 && answers2.size() == 0 && answers3.size() == 0){
 			JSONObject returnJson = ReturnJson.notok("", "未查询到结果", SERVICE_ERROR_500);
 			getResponseWriter().append(returnJson.toString()).flush();
 		}else{
-			JSONArray answersJson = JSONArray.fromObject(answers);
-			JSONObject returnJson = ReturnJson.ok(answersJson, "查询成功");
+			JSONArray answers1Json = JSONArray.fromObject(answers1);
+			JSONArray answers2Json = JSONArray.fromObject(answers2);
+			JSONArray answers3Json = JSONArray.fromObject(answers3);
+			JSONObject answersAll = new JSONObject();
+			answersAll.put("from lucene", answers1Json);
+			answersAll.put("from lcs", answers2Json);
+			answersAll.put("from kei", answers3Json);
+			JSONObject returnJson = ReturnJson.ok(answersAll, "查询成功");
 			getResponseWriter().append(returnJson.toString()).flush();
 		}
 		

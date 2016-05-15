@@ -33,7 +33,11 @@ public class LoadAllDataServlet extends HttpServlet {
 
 		long startTime = System.nanoTime();
 
-		dataLoaderService.loadAll();
+		try {
+			dataLoaderService.loadAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		long endTime = System.nanoTime();
 		DecimalFormat df = new DecimalFormat(",###.00");
