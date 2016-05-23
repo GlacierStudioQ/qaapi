@@ -27,10 +27,10 @@ public class FaqEntry implements Serializable {
     private Long id;// 自增id，主键
     
     @Column(name = "f_question")
-    private String question;// 问题
+    private String question = "没有此问题";// 问题
 
     @Column(name = "f_answer")
-    private String answer;// 答案
+    private String answer = "未查询到结果";// 答案
 
     
 	public Long getId() {

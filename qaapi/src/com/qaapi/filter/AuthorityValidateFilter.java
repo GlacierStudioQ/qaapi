@@ -40,8 +40,9 @@ public class AuthorityValidateFilter implements Filter{
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain chain) throws IOException, ServletException {
 		
-		//TODO: 当然这个只用于测试
-		if(!((HttpServletRequest)req).getRequestURI().contains("action")){
+		//进行用户验证的action不过滤
+		String uri= ((HttpServletRequest)req).getRequestURI();
+		if(uri.contains("user-validate")){
 			chain.doFilter(req, resp);
 			return;
 		}
@@ -61,14 +62,14 @@ public class AuthorityValidateFilter implements Filter{
 			return;
 		}
 		
-		if(!SCHEMAS_NAME.contains(schemaName)){
-			JSONObject returnJson = ReturnJson.notok("", "schema不存在", REQ_ERROR_400);
+		if(!AUTHORITIES.get(domainName).contains(schemaName)){
+			JSONObject returnJson = ReturnJson.notok("", "没有访问此schema的权限", REQ_ERROR_400);
 			resp.getWriter().append(returnJson.toString()).flush();
 			return;
 		}
 		
-		if(!AUTHORITIES.get(domainName).contains(schemaName)){
-			JSONObject returnJson = ReturnJson.notok("", "没有访问此schema的权限", REQ_ERROR_400);
+		if(!SCHEMAS_NAME.contains(schemaName)){
+			JSONObject returnJson = ReturnJson.notok("", "schema不存在", REQ_ERROR_400);
 			resp.getWriter().append(returnJson.toString()).flush();
 			return;
 		}

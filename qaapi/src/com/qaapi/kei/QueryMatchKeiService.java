@@ -14,7 +14,7 @@ import static com.qaapi.memorydb.DataHolder.*;
 
 public class QueryMatchKeiService {
 
-	private static int matchCount = 3;
+	private static int matchCount = 1;
 
 	public static List<FaqEntry> queryMatch(String schemaName, String question) throws Exception {
 	
