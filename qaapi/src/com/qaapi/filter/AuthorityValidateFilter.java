@@ -47,7 +47,7 @@ public class AuthorityValidateFilter implements Filter{
 			return;
 		}
 
-		String schemaName = req.getParameter(PARAM_SCHEMA_NAME);
+		String schemaName = req.getParameter(PARAM_SCHEMA);
 		
 		// 先从session中获取domainName，若获取不到则看请求中有没有
 		HttpSession session = ((HttpServletRequest)req).getSession();

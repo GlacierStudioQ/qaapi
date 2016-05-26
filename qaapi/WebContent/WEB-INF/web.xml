@@ -30,7 +30,7 @@
 
 	<filter-mapping>
 		<filter-name>authorityValidateFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
 	
 	<filter>
@@ -64,10 +64,15 @@
 
 	<!-- 启动加载所有数据 -->
 	<servlet>
-		<servlet-name>initLucene</servlet-name>
+		<servlet-name>initMemoryDB</servlet-name>
 		<servlet-class>com.qaapi.memorydb.LoadAllDataServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>initMemoryDB</servlet-name>
+		<url-pattern>/initMemoryDB</url-pattern>
+	</servlet-mapping>
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
