@@ -5,31 +5,73 @@
 <head>
 <meta charset="UTF-8">
 <%@ include file="/common/commonpage.jsp"%>
-<script src="common/jquery.min.js"></script>
 <title>question config</title>
 </head>
 <body>
 
+<input id="schemaName" type="hidden" value="${sessionScope.schemaName}"/>
+    <div class="input-group">
+       <span class="input-group-addon" id="basic-addon2">当前页：</span>
 
-	当前页：<input id="nowpage" value="1"/>
-	<button id="jumpto">转到</button>
-	每页显示条数：<input id="pagesize"/>
-	<button id="pageup">上一页</button>
-	<button id="pagedown">下一页</button>
+      <input type="text" class="form-control" value="1" placeholder="输入页码" id="nowpage" />
+      <span class="input-group-btn">
+        <button id="jumpto" class="btn btn-default" type="button">跳转</button>
+      </span>
+       <span class="input-group-addon" id="basic-addon2">数据总条数：<span id="datacount"></span></span>
+        <span class="input-group-addon" id="basic-addon2">总页数：<span id="pagecount"></span></span>
+      
+    </div>
+  
+    <div class="input-group">
+       <span class="input-group-addon" id="basic-addon2">每页显示条数</span>
+
+      <input type="text" class="form-control" value="10" placeholder="输入每页条数" id="pagesize" />
+      <span class="input-group-btn">
+        <button id="pageup" class="btn btn-default" type="button">上一页</button>
+        <button id="pagedown" class="btn btn-default" type="button">下一页</button>
+      </span>
+    </div>
+    
+  <!-- 应该是浮动层，用于修改问答的编辑框 -->
+  <div id="confirmUpdateForm">
+<input id="updateId" type="hidden"/>
+  <div class="input-group" >
+ <span class="input-group-addon" id="basic-addon2">输入问题</span>
+		<input type="text" id="updateQuestion" class="form-control"/>
+  </div>
+  <div class="input-group" >
+ <span class="input-group-addon" id="basic-addon2">输入回答</span>
+		<input type="text" id="updateAnswer" class="form-control"/>
+  </div>
+  <div class="input-group" >
+      <span class="input-group-btn">
+		<button id="updateConfirm" class="btn btn-default" type="button">修改</button>
+      </span>
+      <span class="input-group-btn">
+		<button id="updateCancel" class="btn btn-default" type="button">取消</button>
+		</span>
+  </div>
+	</div>
 	
-	数据总条数：<span id="datacount"></span>
-	总页数：<span id="pagecount"></span>
-	
-	<!-- 应该是浮动层，用于修改问答的编辑框 -->
-	<div id="confirmUpdateForm">
-		<input id="updateId" type="hidden"/>
-		<input id="updateQuestion"/>
-		<input id="updateAnswer"/>
-		<button id="updateConfirm">确认</button>
+	<div id="saveForm">
+<input id="updateId" type="hidden"/>
+  <div class="input-group" >
+ <span class="input-group-addon" id="basic-addon2">输入问题</span>
+		<input type="text" id="saveQuestion" class="form-control"/>
+  </div>
+  <div class="input-group" >
+ <span class="input-group-addon" id="basic-addon2">输入回答</span>
+		<input type="text" id="saveAnswer" class="form-control"/>
+  </div>
+  <div class="input-group" >
+      <span class="input-group-btn">
+		<button id="saveQuestionConfirm" class="btn btn-default" type="button">新增</button>
+		</span>
+  </div>
 	</div>
 	
 	<div>
-		<table>
+		<table class="table">
 			<thead>
 				<tr>
 					<td>id</td><td>问题</td><td>回答</td><td>操作</td>
@@ -57,7 +99,7 @@
 			$("#jumpto").click(function(){
 				query(0);
 			});
-			
+			// 更新
 			$("#updateConfirm").click(function (){
 				var entry = {
 					id : $("#updateId").val(),
@@ -66,8 +108,44 @@
 				};
 				updateEntry(entry);
 			});
+			// 更新取消
+			$("#updateCancel").click(function (){
+				$("#confirmUpdateForm").hide();
+			});
+			// 新增
+			$("#saveQuestionConfirm").click(function (){
+				var entry = {
+					question : $("#saveQuestion").val(),
+					answer : $("#saveAnswer").val()
+				};
+				saveEntry(entry);
+			});
 			
 		})
+		
+		function saveEntry(entry){
+			$.ajax({
+				url : '${ctx}/question-config!save.action',
+				type : 'post',
+				data : {
+					'entry.question' : entry.question,
+					'entry.answer' : entry.answer,
+						
+					schemaName : $("#schemaName").val()
+				},
+				dataType : 'json'
+			}).done(function(data) {
+				if(data.status == 200){
+					alert(data.msg);
+					query(0);// 重新进行一次查询
+					// 清空表单
+					$("#saveQuestion").val("");
+					$("#saveAnswer").val("");
+				}else{
+					alert(data.msg);
+				}
+			});
+		}
 		
 		function updateEntry(entry){
 			$.ajax({
@@ -78,8 +156,7 @@
 					'entry.question' : entry.question,
 					'entry.answer' : entry.answer,
 						
-					domainName : "localhost",
-					schemaName : "qaapi"
+					schemaName : $("#schemaName").val()
 				},
 				dataType : 'json'
 			}).done(function(data) {
@@ -100,8 +177,7 @@
 				data : {
 					'entry.id' : parentsTr.attr("id"),
 						
-					domainName : "localhost",
-					schemaName : "qaapi"
+					schemaName : $("#schemaName").val()
 				},
 				dataType : 'json'
 			}).done(function(data) {
@@ -119,9 +195,6 @@
 			var nowPage = parseInt($("#nowpage").val());
 			var pageSize = $("#pagesize").val();
 			
-			//var dataCount = $("#datacount").html();
-			//var pageCount = $("#pagecount").html();
-			
 			nowPage += pageChange;
 			
 			$.ajax({
@@ -130,11 +203,8 @@
 				data : {
 					'cutPage.nowPage' : nowPage,
 					'cutPage.pageSize' : pageSize,
-				//	'cutPage.dataCount' : dataCount,
-				//	'cutPage.pageCount' : pageCount,
 						
-					domainName : "localhost",
-					schemaName : "qaapi"
+					schemaName : $("#schemaName").val()
 				},
 				dataType : 'json'
 			}).done(function(data) {
@@ -147,9 +217,9 @@
 				 $("#datacount").html(cutPage.dataCount);
 				 $("#pagecount").html(cutPage.pageCount);
 				 
+				 var tbody = $("#faqentries");
+				 tbody.empty();
 				 if(entries.length != 0){
-					 var tbody = $("#faqentries");
-					 tbody.empty();
 					 
 					 for(entry in entries){
 						 tbody.append(entryString(entries[entry]));
@@ -173,8 +243,8 @@
 		function entryString(entry){
 			return "<tr id='"+ entry.id +"'><td class='id'>" + entry.id + "</td><td class='question'>" + entry.question + "</td><td class='answer'>" + entry.answer + "</td>" +
 						"<td>"+
-						"<button class='updatebtn'>修改</button>"+
-						"<button class='deletebtn'>删除</button>"+
+						"<button class='updatebtn btn btn-xs btn-warning'>修改</button>"+
+						"<button class='deletebtn btn btn-xs btn-danger'>删除</button>"+
 						"</td></tr>";
 		}
 	</script>
