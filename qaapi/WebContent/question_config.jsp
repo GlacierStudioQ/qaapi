@@ -9,26 +9,28 @@
 </head>
 <body>
 
-<input id="schemaName" type="hidden" value="${sessionScope.schemaName}"/>
+	<!-- 要配置的schema -->
+	<input id="schemaName" type="hidden" value="${sessionScope.schemaName}"/>
+	
     <div class="input-group">
        <span class="input-group-addon" id="basic-addon2">当前页：</span>
 
-      <input type="text" class="form-control" value="1" placeholder="输入页码" id="nowpage" />
+      <input type="text" class="form-control" value="1" placeholder="页码" id="nowpage" />
       <span class="input-group-btn">
         <button id="jumpto" class="btn btn-default" type="button">跳转</button>
       </span>
-       <span class="input-group-addon" id="basic-addon2">数据总条数：<span id="datacount"></span></span>
         <span class="input-group-addon" id="basic-addon2">总页数：<span id="pagecount"></span></span>
+       <span class="input-group-addon" id="basic-addon2">数据总条数：<span id="datacount"></span></span>
       
     </div>
   
     <div class="input-group">
        <span class="input-group-addon" id="basic-addon2">每页显示条数</span>
 
-      <input type="text" class="form-control" value="10" placeholder="输入每页条数" id="pagesize" />
+      <input type="text" class="form-control" value="10" placeholder="每页条数" id="pagesize" />
       <span class="input-group-btn">
-        <button id="pageup" class="btn btn-default" type="button">上一页</button>
-        <button id="pagedown" class="btn btn-default" type="button">下一页</button>
+        <button id="pageup" class="btn btn-default" type="button">&nbsp<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"/>上一页</button>
+        <button id="pagedown" class="btn btn-default" type="button">&nbsp下一页<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"/></button>
       </span>
     </div>
     
@@ -42,8 +44,6 @@
   <div class="input-group" >
  <span class="input-group-addon" id="basic-addon2">输入回答</span>
 		<input type="text" id="updateAnswer" class="form-control"/>
-  </div>
-  <div class="input-group" >
       <span class="input-group-btn">
 		<button id="updateConfirm" class="btn btn-default" type="button">修改</button>
       </span>
@@ -62,8 +62,6 @@
   <div class="input-group" >
  <span class="input-group-addon" id="basic-addon2">输入回答</span>
 		<input type="text" id="saveAnswer" class="form-control"/>
-  </div>
-  <div class="input-group" >
       <span class="input-group-btn">
 		<button id="saveQuestionConfirm" class="btn btn-default" type="button">新增</button>
 		</span>

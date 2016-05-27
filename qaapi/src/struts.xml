@@ -13,5 +13,17 @@
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.il8n.encoding" value="UTF-8" />
 	
+	<package name="admin" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="questionConfigInterceptor" class="com.qaapi.interceptor.QuestionConfigInterceptor" />
+			
+			<interceptor-stack name="questionConfigInterceptorStack">
+				<interceptor-ref name="questionConfigInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+			
+		</interceptors>
+		
+	</package>
 	
 </struts>

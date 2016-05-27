@@ -3,6 +3,7 @@ package com.qaapi.memorydb;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class DataBaseLoader {
 		//scheams
 		List<Schema> allSchemas = schemaDao.loadAll();
 		SCHEMAS = new ArrayList<Schema>(allSchemas);
-		DataHolder.extractSchemasName();
+		DataHolder.extractSchemasName();// 初始化schema名的set
 		
 		//authorities
 		AUTHORITIES = new HashMap<String, List<String>>();
@@ -65,6 +66,7 @@ public class DataBaseLoader {
 			}
 			AUTHORITIES.get(auth.getDomain()).add(auth.getSchemasName());
 		}
+		DOMAINS_NAME = new HashSet<String>(AUTHORITIES.keySet());// 初始化domain名的set
 		
 		//FaqEntries
 		FAQ_ENTRIES = new HashMap<String, Map<Long,FaqEntry>>();

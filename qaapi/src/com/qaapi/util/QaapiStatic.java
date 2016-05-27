@@ -13,6 +13,11 @@ public interface QaapiStatic {
 	
 	// return
 	public static final String RETURN_UNIVERSAL = "returnUniversal";
+	public static final String RETURN_QUESTION_CFG = "returnQuestionCfg";
+	
+	// status
+	public static final String STATU_IS_ADMIN = "statusIsAdmin";
+	
 	
 	// default value
 	public static final Integer DEFAULT_PAGE_SIZE = 10;

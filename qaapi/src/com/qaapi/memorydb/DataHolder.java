@@ -46,6 +46,13 @@ public class DataHolder {
 	 */
 	public static Map<String ,List<String>> AUTHORITIES;
 	
+
+	/*
+	 * List<domainName>
+	 * 存放系统一共包含的域的名字
+	 */
+	public static Set<String> DOMAINS_NAME;
+	
 	/*
 	 * Map<schemaName ,Map<id, FaqEntry>>
 	 * 存放每个库中的所有问答

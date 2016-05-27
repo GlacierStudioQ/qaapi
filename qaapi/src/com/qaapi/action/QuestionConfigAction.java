@@ -3,6 +3,7 @@ package com.qaapi.action;
 import net.sf.json.JSONObject;
 
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import com.opensymphony.xwork2.Preparable;
@@ -11,7 +12,8 @@ import com.qaapi.bean.FaqEntry;
 import com.qaapi.multisource.NowSchemaHolder;
 import com.qaapi.service.FaqEntryService;
 
-@ParentPackage(value = "struts-default")
+@ParentPackage(value = "admin")
+@InterceptorRef(value = "questionConfigInterceptorStack")
 public class QuestionConfigAction extends BaseAction implements Preparable{
 	private static final long serialVersionUID = 1L;
 

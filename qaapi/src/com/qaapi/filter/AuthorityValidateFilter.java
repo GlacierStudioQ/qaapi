@@ -42,7 +42,8 @@ public class AuthorityValidateFilter implements Filter{
 		
 		//进行用户验证的action不过滤
 		String uri= ((HttpServletRequest)req).getRequestURI();
-		if(uri.contains("user-validate")){
+		if(uri.contains("user-validate") ||
+				uri.contains("admin-config")){
 			chain.doFilter(req, resp);
 			return;
 		}
