@@ -30,6 +30,11 @@ public class Schema implements Serializable
     @Column(name = "f_name")
     private String name;// 当前所拥有的数据库的名字
 
+
+    @Column(name = "f_nickname")
+    private String nickname;// 当前所拥有的数据库的别名
+
+    
 	public Long getId() {
 		return id;
 	}
@@ -44,6 +49,14 @@ public class Schema implements Serializable
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
     
 }

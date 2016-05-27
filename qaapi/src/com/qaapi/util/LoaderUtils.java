@@ -18,7 +18,7 @@ public class LoaderUtils {
 			throws SchemaNotExistException {
 
 		for (String schemaName : schemaNames) {
-			if (!SCHEMAS_NAME.contains(schemaName)) {
+			if (!SCHEMAS_NAME_INDEX.keySet().contains(schemaName)) {
 				throw new SchemaNotExistException(schemaName);
 			}
 		}

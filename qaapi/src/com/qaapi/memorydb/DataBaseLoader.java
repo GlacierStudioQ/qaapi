@@ -55,7 +55,7 @@ public class DataBaseLoader {
 		//scheams
 		List<Schema> allSchemas = schemaDao.loadAll();
 		SCHEMAS = new ArrayList<Schema>(allSchemas);
-		DataHolder.extractSchemasName();// 初始化schema名的set
+		DataHolder.makeSchemasNameIndex();;// 初始化schema名与schema映射的map
 		
 		//authorities
 		AUTHORITIES = new HashMap<String, List<String>>();

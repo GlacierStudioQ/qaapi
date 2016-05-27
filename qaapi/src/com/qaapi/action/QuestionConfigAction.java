@@ -12,6 +12,8 @@ import com.qaapi.bean.FaqEntry;
 import com.qaapi.multisource.NowSchemaHolder;
 import com.qaapi.service.FaqEntryService;
 
+import static com.qaapi.util.QaapiStatic.*;
+
 @ParentPackage(value = "admin")
 @InterceptorRef(value = "questionConfigInterceptorStack")
 public class QuestionConfigAction extends BaseAction implements Preparable{
@@ -30,7 +32,7 @@ public class QuestionConfigAction extends BaseAction implements Preparable{
 	 */
 	@Override
 	public void prepare() throws Exception {
-		schemaName = ServletActionContext.getRequest().getParameter("schemaName");
+		schemaName = ServletActionContext.getRequest().getParameter(PARAM_SCHEMA);
 		NowSchemaHolder.set(schemaName);
 	}
 	

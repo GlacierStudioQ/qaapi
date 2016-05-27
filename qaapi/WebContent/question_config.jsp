@@ -9,8 +9,11 @@
 </head>
 <body>
 
+	<ul class="nav nav-pills" id="schemasSelect">
+	</ul>
+	
 	<!-- 要配置的schema -->
-	<input id="schemaName" type="hidden" value="${sessionScope.schemaName}"/>
+	<input id="schemaName" type="hidden" />
 	
     <div class="input-group">
        <span class="input-group-addon" id="basic-addon2">当前页：</span>
@@ -83,6 +86,28 @@
 
 	<script>
 		$(document).ready(function() {
+			
+			$.ajax({
+				url : '${ctx}/unlimited!avaliableSchemas.action',
+				async: false,
+				type : 'post',
+				dataType : 'json'
+			}).done(function(data) {
+				if(data.status == 200){
+					var schemas = data.data;
+					for(schema in schemas){
+						if(schema == 0){
+							$("#schemaName").val(schemas[schema].name);
+							$("#schemasSelect").append(schemaString(schemas[schema], true));
+						}else{
+							$("#schemasSelect").append(schemaString(schemas[schema], false));
+						}
+					}
+				}else{
+					alert(data.msg);
+				}
+			});
+			
 			$("#confirmUpdateForm").hide();
 			query(0);
 			
@@ -244,6 +269,13 @@
 						"<button class='updatebtn btn btn-xs btn-warning'>修改</button>"+
 						"<button class='deletebtn btn btn-xs btn-danger'>删除</button>"+
 						"</td></tr>";
+		}
+		function schemaString(schema, isActive){
+			var activeClass = "";
+			if(isActive){
+				activeClass = 'class="active"';
+			}
+			return '<li role="presentation" ' + activeClass + ' ><a id="' + schema.name + '">' + schema.nickname + '</a></li>';
 		}
 	</script>
 </body>

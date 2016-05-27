@@ -21,8 +21,7 @@ import com.qaapi.util.ReturnJson;
 
 import net.sf.json.JSONObject;
 import static com.qaapi.util.QaapiStatic.*;
-import static com.qaapi.memorydb.DataHolder.AUTHORITIES;
-import static com.qaapi.memorydb.DataHolder.SCHEMAS_NAME;
+import static com.qaapi.memorydb.DataHolder.*;
 
 public class AuthorityValidateFilter implements Filter{
 	
@@ -40,10 +39,11 @@ public class AuthorityValidateFilter implements Filter{
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain chain) throws IOException, ServletException {
 		
-		//进行用户验证的action不过滤
+		//不过滤的action
 		String uri= ((HttpServletRequest)req).getRequestURI();
 		if(uri.contains("user-validate") ||
-				uri.contains("admin-config")){
+				uri.contains("admin-config")||
+				uri.contains("unlimited")){
 			chain.doFilter(req, resp);
 			return;
 		}
@@ -69,7 +69,7 @@ public class AuthorityValidateFilter implements Filter{
 			return;
 		}
 		
-		if(!SCHEMAS_NAME.contains(schemaName)){
+		if(!SCHEMAS_NAME_INDEX.keySet().contains(schemaName)){
 			JSONObject returnJson = ReturnJson.notok("", "schema不存在", REQ_ERROR_400);
 			resp.getWriter().append(returnJson.toString()).flush();
 			return;
