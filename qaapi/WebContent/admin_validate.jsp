@@ -10,7 +10,7 @@
 <body>
 	<div class="input-group">
 		<span class="input-group-addon">请输入域名</span> 
-		<input type="text" class="form-control" placeholder="域名" id="domainName" value="tfwxsDomain" /> 
+		<input type="text" class="form-control" placeholder="域名" id="domainName" value="" /> 
 		<span class="input-group-btn">
 			<button id="confirm" class="btn btn-default" type="button">确认</button>
 		</span>

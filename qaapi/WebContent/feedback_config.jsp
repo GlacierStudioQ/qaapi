@@ -20,7 +20,7 @@
 
       <input type="text" class="form-control" value="1" placeholder="页码" id="nowpage" />
       <span class="input-group-btn">
-        <button id="jumpto" class="btn btn-default" type="button">跳转</button>
+        <button id="jumpto" class="btn btn-default" type="button" >跳转</button>
       </span>
         <span class="input-group-addon" id="basic-addon2">总页数：<span id="pagecount"></span></span>
        <span class="input-group-addon" id="basic-addon2">数据总条数：<span id="datacount"></span></span>
@@ -199,26 +199,6 @@
 			});
 		}
 		
-		function deleteEntry(parentsTr){
-			$.ajax({
-				url : '${ctx}/question-config!delete.action',
-				type : 'post',
-				data : {
-					'entry.id' : parentsTr.attr("id"),
-						
-					schemaName : $("#schemaName").val()
-				},
-				dataType : 'json'
-			}).done(function(data) {
-				if(data.status == 200){
-					parentsTr.remove;
-					alert(data.msg);
-					query(0);// 重新进行一次查询
-				}else{
-					alert(data.msg);
-				}
-			});
-		}
 			
 		function query(pageChange){
 			var nowPage = parseInt($("#nowpage").val());
@@ -254,9 +234,6 @@
 						 tbody.append(entryString(entries[entry]));
 					 }
 					 
-					 tbody.on("click", ".deletebtn", function(){
-						 deleteEntry($(this).parents("tr"));
-					 });
 					 tbody.on("click", ".updatebtn", function(){
 						 var parentsTr = $(this).parents("tr");
 						 $("#updateId").val(parentsTr.children(".faqanswer").attr("id"));

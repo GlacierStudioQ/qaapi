@@ -6,6 +6,7 @@ import java.util.List;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
 import com.qaapi.bean.FaqEntry;
@@ -27,6 +28,11 @@ public class AnswerAction extends BaseAction {
 	public String answer() throws Exception {
 		System.out.println("sys => into answer action");
 		
+		if(StringUtils.isEmpty(question)){
+			getResponseWriter().append(ReturnJson.notok("", "问题不能为空", REQ_ERROR_400).toString()).flush();
+			return NONE;
+		}
+		
 		List<List<FaqEntry>> answersByAllMethod = new ArrayList<List<FaqEntry>>();
 		
 		answersByAllMethod.add(QueryMatchService.queryMatch(schemaName, question));
@@ -35,7 +41,7 @@ public class AnswerAction extends BaseAction {
 
 		FaqEntry fitAnswer = FilterAnswersUtil.LengthMaxMatch(answersByAllMethod);
 		
-		JSONObject returnJson = ReturnJson.ok(fitAnswer, "查询成功");
+		JSONObject returnJson = ReturnJson.ok(fitAnswer, "查询成功", question);
 		getResponseWriter().append(returnJson.toString()).flush();
 
 		return NONE;

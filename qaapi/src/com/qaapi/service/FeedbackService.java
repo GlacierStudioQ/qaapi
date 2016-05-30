@@ -52,7 +52,7 @@ public class FeedbackService {
 		Long entryId = (Long) feedbackDao.save(feedback);
 		feedback.setId(entryId);
 		
-		return ReturnJson.ok(feedback, "增加问答成功");
+		return ReturnJson.ok(feedback, "反馈成功");
 	}
 	
 	public JSONObject findByPage(CutPage cutPage) {
