@@ -12,6 +12,7 @@
 	  <a href="${ctx}/user-validate!njau.action" class="list-group-item disabled">南京农业大学</a>
 	  <a href="${ctx}/user-validate!tfwxs.action" class="list-group-item">听风文学社</a>
 	  <a href="${ctx}/question_config.jsp" class="list-group-item">修改增加问题</a>
+	  <a href="${ctx}/feedback_config.jsp" class="list-group-item">查看用户反馈</a>
 	  <a href="${ctx}/admin_validate.jsp" class="list-group-item">管理员验证</a>
 	 
 	</div>

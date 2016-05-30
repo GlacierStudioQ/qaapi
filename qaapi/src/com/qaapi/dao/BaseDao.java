@@ -3,10 +3,14 @@ package com.qaapi.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -55,7 +59,7 @@ public class BaseDao extends HibernateDaoSupport {
 	public List<?> findByProperty(String entityName, String paramName,
 			Object paramValue, int firstResult, int maxResults) {
 		DetachedCriteria criteria=DetachedCriteria.forEntityName(ENTITY_PATH+entityName);
-		criteria.add(Restrictions.eq(paramName, paramValue));				//Restrictions�ഴ��criteria
+		criteria.add(Restrictions.eq(paramName, paramValue));				
 		return getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);
 	}
 	
@@ -81,12 +85,24 @@ public class BaseDao extends HibernateDaoSupport {
 		return getHibernateTemplate().find(hql);
 	}
 
-	public List<?> loadAll(String entityName, String paramName, int firstResult, int maxResults) {
+	public List<?> loadAll(String entityName, int firstResult, int maxResults) {
 	
 		DetachedCriteria criteria=DetachedCriteria.forEntityName(ENTITY_PATH + entityName);
-		//criteria.add(Restrictions.isNotNull(paramName));//Restrictions类创建criteria
 		return getHibernateTemplate().findByCriteria(criteria, firstResult, maxResults);
 	}
 	
+	public  <T> List<?> findByHql(final String hql,final int firstResult,final int maxResults){
+		
+		return getHibernateTemplate().execute(new HibernateCallback<List>() {
+			@Override
+			public List doInHibernate(Session session) throws HibernateException {
+				Query query = session.createQuery(hql);
+			    query.setFirstResult(firstResult);
+			    query.setMaxResults(maxResults);
+			    List list = query.list();
+			    return list;
+			}
+		});
+	}
 	
 }

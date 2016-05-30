@@ -38,7 +38,7 @@ public class SchemaDao extends BaseDao {
 	}
 
 	public List<Schema> loadAll(String paramName, int firstResult, int maxResults) {
-		return (List<Schema>) super.loadAll(ENTITY_NAME, paramName, firstResult, maxResults);
+		return (List<Schema>) super.loadAll(ENTITY_NAME, firstResult, maxResults);
 	}
 	
 	

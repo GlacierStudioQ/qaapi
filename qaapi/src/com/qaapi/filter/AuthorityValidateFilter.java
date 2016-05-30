@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import static com.qaapi.util.GlobeStatus.*;
 
+import com.qaapi.multisource.NowSchemaHolder;
 import com.qaapi.util.ReturnJson;
 
 import net.sf.json.JSONObject;
@@ -74,6 +75,9 @@ public class AuthorityValidateFilter implements Filter{
 			resp.getWriter().append(returnJson.toString()).flush();
 			return;
 		}
+		
+		// 到这里说明成功了
+		NowSchemaHolder.set(schemaName);
 		
 		chain.doFilter(req, resp);
 		

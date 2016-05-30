@@ -38,7 +38,7 @@ public class FaqDao extends BaseDao {
 	}
 
 	public List<FaqEntry> loadAll(String paramName, int firstResult, int maxResults) {
-		return (List<FaqEntry>) super.loadAll(ENTITY_NAME, paramName, firstResult, maxResults);
+		return (List<FaqEntry>) super.loadAll(ENTITY_NAME, firstResult, maxResults);
 	}
 	
 	

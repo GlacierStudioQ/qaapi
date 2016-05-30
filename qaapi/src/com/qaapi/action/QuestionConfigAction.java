@@ -2,21 +2,16 @@ package com.qaapi.action;
 
 import net.sf.json.JSONObject;
 
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 
-import com.opensymphony.xwork2.Preparable;
 import com.qaapi.bean.CutPage;
 import com.qaapi.bean.FaqEntry;
-import com.qaapi.multisource.NowSchemaHolder;
 import com.qaapi.service.FaqEntryService;
-
-import static com.qaapi.util.QaapiStatic.*;
 
 @ParentPackage(value = "admin")
 @InterceptorRef(value = "questionConfigInterceptorStack")
-public class QuestionConfigAction extends BaseAction implements Preparable{
+public class QuestionConfigAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 
 	FaqEntryService faqEntryService;
@@ -26,16 +21,7 @@ public class QuestionConfigAction extends BaseAction implements Preparable{
 	
 	FaqEntry entry;
 	CutPage cutPage;
-	
-	/**
-	 * 对于每一个访问，都要设置访问的schema
-	 */
-	@Override
-	public void prepare() throws Exception {
-		schemaName = ServletActionContext.getRequest().getParameter(PARAM_SCHEMA);
-		NowSchemaHolder.set(schemaName);
-	}
-	
+
 	public String save() throws Exception {
 		System.out.println("into save");
 		

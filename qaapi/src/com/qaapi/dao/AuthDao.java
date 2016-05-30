@@ -38,7 +38,7 @@ public class AuthDao extends BaseDao {
 	}
 
 	public List<Authority> loadAll(String paramName, int firstResult, int maxResults) {
-		return (List<Authority>) super.loadAll(ENTITY_NAME, paramName, firstResult, maxResults);
+		return (List<Authority>) super.loadAll(ENTITY_NAME, firstResult, maxResults);
 	}
 	
 	
