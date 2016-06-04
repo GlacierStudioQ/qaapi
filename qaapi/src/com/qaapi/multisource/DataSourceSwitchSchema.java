@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
@@ -13,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.qaapi.DBInfo;
 import com.qaapi.multisource.NowSchemaHolder;
+
 import static com.qaapi.multisource.NowSchemaHolder.DFT_DB;;
 
 /**
@@ -22,7 +25,8 @@ import static com.qaapi.multisource.NowSchemaHolder.DFT_DB;;
  *
  */
 public class DataSourceSwitchSchema implements DataSource {
-	
+
+	private static Map<String, DataSource> sources = new HashMap<String, DataSource>();
 	private DataSource dataSourceBase;
 
 	private DataSource getDataSource() {
@@ -38,10 +42,18 @@ public class DataSourceSwitchSchema implements DataSource {
 	 * @return
 	 */
 	private DataSource createSource(String dbName) {
+		// 没有明确指出的使用默认数据源
 		if (StringUtils.isEmpty(dbName) || DFT_DB.equals(dbName)) {
 			System.out.println("db => use default db");
 			return dataSourceBase;
-		} else {
+			
+		// 明确指出的使用已经保存的数据源
+		} if(sources.get(dbName) != null){
+			System.out.println("db => use saved db " + dbName);
+			return sources.get(dbName);
+			
+		// 明确指出但未保存的，新建并保存
+		}else {
 			try{
 				String driver = DBInfo.get("jdbc.driverClassName");
 				String host = DBInfo.get("jdbc.host");
@@ -62,7 +74,8 @@ public class DataSourceSwitchSchema implements DataSource {
 				ds.setIdleConnectionTestPeriod(60);
 				ds.setMaxStatements(0);
 				
-				System.out.println("db => use other db : " + dbName);
+				sources.put(dbName, ds);
+				System.out.println("db => use just created db : " + dbName);
 				return ds;
 			}catch(Exception e){
 				e.printStackTrace();

@@ -35,7 +35,7 @@
 			var question = $("#question").val();
 			var schemaname = $("#schemaname").val();
 			$.ajax({
-				url : '{ctx}/answer!answer.action',
+				url : '${ctx}/answer!answer.action',
 				type : 'post',
 				data : {
 					schemaName : schemaname,
